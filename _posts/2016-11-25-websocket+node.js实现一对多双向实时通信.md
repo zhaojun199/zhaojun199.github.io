@@ -17,7 +17,7 @@ tag: javascript
 ------------------------------------
 这个就不多说了，官网安装node.js，现在也不需要配置环境变量之类的，我使用的版本是v6.9.1
 
-{% highlight bash linenos %}
+{% highlight bash %}
 
 C:\Users\zz>node -v
 v6.9.1
@@ -28,7 +28,7 @@ v6.9.1
 ------------------------------------
 Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。（这句是从官网摘抄的）
 
-{% highlight bash linenos %}
+{% highlight bash %}
 
 $ npm install express --save
 
@@ -42,7 +42,7 @@ $ npm install express --save
 
 * body中的内容:
 
-{% highlight bash linenos %}
+{% highlight bash %}
 <textarea id="content"></textarea>
 <input type="button" onclick="CHAT.submit()" value="提交" />
 {% endhighlight %}
@@ -50,7 +50,7 @@ $ npm install express --save
 body中的内容只是一个简单的提交，用于测试发送信息给服务端
 
 * 定义一个对象CHAT，内部提供websocket初始化方法
-{% highlight bash linenos %}
+{% highlight bash %}
 w.CHAT = {
         socket:null,
         submit:function(){
@@ -67,7 +67,7 @@ w.CHAT = {
 其中socket为实例化的socket.io对象，submit为发送信息方法，updateMsg为收到信息的展示方法，init为初始化socket方法。
 
 * submit:
-{% highlight bash linenos %}
+{% highlight bash %}
 function(){
     var content = d.getElementById("content").value;
     if(content != ''){
@@ -85,7 +85,7 @@ function(){
 emit是socket的发送信息方法，第一个参数为约定对接字段，第二个参数为发送的数据，可以是json对象。
 
 * updateMsg:
-{% highlight bash linenos %}
+{% highlight bash %}
 function(o, message){
     if(message == 'message'){
         console.log('收到推送内容',o);
@@ -95,7 +95,7 @@ function(o, message){
 updateMsg是自定义的方法，第一个参数是收到服务端的数据，第二个是自定义的检测字段。
 
 * init：
-{% highlight bash linenos %}
+{% highlight bash %}
 function(openID){
     //连接websocket后端服务器
     this.socket = io.connect('ws://192.168.1.106:3000');
@@ -214,7 +214,7 @@ io.on('connection', function(socket){
 ```
 
 * 连接监听**hasConnect**字段，并对发来的信息进行存入在线列表并分组处理
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.on('hasConnect', function(obj){
 	if(obj.type == 'wechat'){
 		//var deviceID = getDeviceIDByOpenID(obj.ID);//真正实现的时候需要编写一个通过openid获取deviceID的方法，这里用测试ID代替
@@ -238,7 +238,7 @@ socket.on('hasConnect', function(obj){
 具体的思路是微信端和设备端连接的时候都会发送一个hasConnect字段，然后字段中含有设备/微信的信息和ID，利用这些信息对它们进行分组处理，存入在线列表中。
 
 * 监听**message**字段，根据信息内的内容，寻找其所在分组，利用connected[id]方法转发到指定的微信/设备上去
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.on('message', function(obj){
 	if(obj.type == 'wechat'){
 		if(obj.ID){
@@ -264,7 +264,7 @@ socket.on('message', function(obj){
 {% endhighlight %}
 
 * 最后监听端口:
-{% highlight bash linenos %}
+{% highlight bash %}
 http.listen(3000, function(){
 	console.log('listening on *:3000');
 });
@@ -289,7 +289,7 @@ var socket = new WebSocket(host);
 ```
 
 * 建立连接：
-{% highlight bash linenos %}
+{% highlight bash %}
 // 打开Socket
 socket.onopen = function (event) {
     alert('您已经成功连接');
@@ -305,7 +305,7 @@ socket.onopen = function (event) {
 用onopen方法建立和服务端的连接，利用send方法发送信息给服务端。
 
 * 监听服务端发来的消息：
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.onmessage = function (event) {
     alert('message received');
     var res = event.data;
@@ -317,7 +317,7 @@ socket.onmessage = function (event) {
 用onmessage方法监听服务端的消息，event.data为服务端发送来的数据，后面可以自己写逻辑处理这些数据，我只是做了简单的展示。
 
 * 监听Socket的关闭：
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.onclose = function (event) {
         socket = null;
         alert('您已经断开连接');
@@ -328,7 +328,7 @@ socket.onclose = function (event) {
 二、设备端代码的编写
 ------------------------------------
 设备端的代码是基于安卓的，我对安卓的代码不太了解，直接附上代码：
-{% highlight bash linenos %}
+{% highlight bash %}
 /**
  * Created by rick on 16-11-22.
  */
@@ -498,7 +498,7 @@ public class WebSocketUtil {
 三、服务端代码的编写
 ------------------------------------
 * 导入需要的模块
-{% highlight bash linenos %}
+{% highlight bash %}
 var app = require('express')();
 var http = require('http').Server(app);
 var ws = require('ws');
@@ -509,7 +509,7 @@ var useDeviceID = getDeviceID.getActivedDeviceByOpenID;
 其中getDeviceID是自己写的一个获取设备ID的模块，不需要的可以无视
 
 * 实例化websocket：
-{% highlight bash linenos %}
+{% highlight bash %}
 var io = new WebSocketServer({
     port: 3000,//监听的端口
 });
@@ -525,7 +525,7 @@ app.get('/', function(req, res){
 `io.on('connection', function(socket){});`
 
 * 监听Socket的关闭：
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.on('close', function(obj){
 	outerloop:
 	for(var e in onlineList){
@@ -541,7 +541,7 @@ socket.on('close', function(obj){
 在socket断开时，会从在线列表中删除在线的用户。
 
 * 将微信端的信息转发给设备
-{% highlight bash linenos %}
+{% highlight bash %}
 function forwardMessageToDevice(deviceID,stringObj){
 	var socketID = onlineList[deviceID][deviceID];
 	if(socketID){
@@ -553,7 +553,7 @@ function forwardMessageToDevice(deviceID,stringObj){
 如果设备在线则转发，不在线不作处理。
 
 * 将设备端的信息转发给微信
-{% highlight bash linenos %}
+{% highlight bash %}
 function forwardMessageToWechat(obj,stringObj){
 	for(var e in onlineList[obj.ID]){
 		var socketID = onlineList[obj.ID][e];
@@ -567,7 +567,7 @@ function forwardMessageToWechat(obj,stringObj){
 如果微信在线则转发，不在线不作处理。
 
 * 监听收来的信息，搜索在线列表，转发给指定对象
-{% highlight bash linenos %}
+{% highlight bash %}
 socket.onmessage = function(obj){
 		var stringMessage;
 		try{
