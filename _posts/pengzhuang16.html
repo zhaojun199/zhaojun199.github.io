@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	html,body{
+		margin: 0;
+		padding: 0;
+	}
+	.dad{
+		width:500px;
+		height:500px;
+		background: #f1f1f1;
+		position: relative;
+	}
+	.son{
+		width:50px;
+		height:50px;
+		background: #f00000;
+		border-radius: 50%;
+		position: absolute;
+		color: #000;
+		display: inline-block;
+		margin: 0;
+		left:6px;
+		top:6px;
+	}
+	.son:nth-child(0){
+		left:6px;
+		top:6px;
+	}
+	.son:nth-child(1){
+		left:70px;
+		top:6px;
+		background: #FEFEFE;
+	}
+	.son:nth-child(2){
+		left:140px;
+		top:6px;
+		background: #FF00FF;
+	}
+	.son:nth-child(3){
+		left:210px;
+		top:6px;
+		background: #EED5B7;
+	}
+	.son:nth-child(4){
+		left:6px;
+		top:70px;
+		background: #FF34B3;
+	}
+	.son:nth-child(5){
+		left:70px;
+		top:70px;
+		background: #FF8C69;
+	}
+	.son:nth-child(6){
+		left:140px;
+		top:70px;
+		background: #FFA54F;
+	}
+	.son:nth-child(7){
+		left:210px;
+		top:70px;
+		background: #FFE4E1;
+	}
+	.son:nth-child(8){
+		left:6px;
+		top:140px;
+		background: #FFD39B;
+	}
+	.son:nth-child(9){
+		left:70px;
+		top:140px;
+		background: #515151;
+	}
+	.son:nth-child(10){
+		left:140px;
+		top:140px;
+		background: #912CEE;
+	}
+	.son:nth-child(11){
+		left:210px;
+		top:140px;
+		background: #CD8C95;
+	}
+	.son:nth-child(12){
+		left:6px;
+		top:210px;
+		background: #CAE1FF;
+	}
+	.son:nth-child(13){
+		left:70px;
+		top:210px;
+		background: #CDB38B;
+	}
+	.son:nth-child(14){
+		left:140px;
+		top:210px;
+		background: #E066FF;
+	}
+	.son:nth-child(15){
+		left:210px;
+		top:210px;
+		background: #EE6363;
+	}
+</style>
+<body>
+	<div class="dad">
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+		<div class="son"></div>
+	</div>
+<script type="text/javascript">
+window.onload = (function(){
+	//下面三个可以是传入的参数
+	var dad = document.querySelector(".dad");//父元素节点
+	var son = document.querySelectorAll(".son");//子元素节点
+	var inter = 30;		//动画帧时间
+	var speedX = [];	//小球的x轴偏移速度
+	var speedY = [];	//小球的y轴偏移速度
+	var origin = [];	//小球原点位置
+	var distance = [];
+	for (var i = 0; i < son.length; i++){
+		speedX[i]= 2*(1-2*Math.random());
+		speedY[i] = Math.sqrt((4 - Math.pow(speedX[i],2)),2);
+		origin[i] = {
+			x:son[i].offsetLeft + son[i].offsetHeight/2,
+			y:son[i].offsetTop + son[i].offsetWidth/2
+		}
+		distance[i] = [];
+	};
+	move(speedX,speedY,origin,inter);
+	function move(speedX,speedY,origin,inter){
+		for(var i = 0; i < son.length; i++){
+			son[i].style.left = origin[i]['x'] - son[i].offsetWidth/2 + speedX[i]+ 'px';
+			son[i].style.top = origin[i]['y'] - son[i].offsetHeight/2 + speedY[i]+ 'px';
+			for (var k = 0; k < son.length; k++){
+				origin[k] = {
+					x:son[k].offsetLeft + son[k].offsetHeight/2,
+					y:son[k].offsetTop + son[k].offsetWidth/2
+				}
+			};
+			if(son[i].offsetLeft+son[i].offsetWidth > dad.offsetWidth){
+				speedX[i] = -speedX[i];
+			//下边界
+			}else if(son[i].offsetTop+son[i].offsetHeight > dad.offsetHeight){
+				speedY[i] = -speedY[i];
+			//左边界
+			}else if(son[i].offsetLeft < 0){
+				speedX[i] = -speedX[i];
+			//上边界
+			}else if(son[i].offsetTop < 0){
+				speedY[i] = -speedY[i];
+			}else{
+
+			}
+		}
+		for(var i = 0; i < son.length; i++){
+			for(var j = 0; j < son.length; j++){
+				distance[i][j] = Math.sqrt( Math.pow((origin[i]['x'] - origin[j]['x']),2) + Math.pow((origin[i]['y'] - origin[j]['y']),2) );
+			}
+		}
+		for(var m = 0; m < son.length; m++){
+			for(var n = m + 1; n < son.length; n++){
+				console.log(m,n,distance[m][n]);
+				if((distance[m][n]) < (son[m].offsetHeight/2 + son[n].offsetHeight/2)){
+					speedX[m] = -speedX[m];
+					speedY[m] = -speedY[m];
+					speedX[n] = -speedX[n];
+					speedY[n] = -speedY[n];
+				}
+			}
+		}
+		setTimeout(function(){move(speedX,speedY,origin,inter);},inter);
+	}
+})();
+</script>
+</body>
+</html>

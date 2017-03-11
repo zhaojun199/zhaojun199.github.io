@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	.dad{
+		width:150px;
+		height:150px;
+		background: #f1f1f1;
+		position: relative;
+		display: inline-block;
+	}
+	.son{
+		width:50px;
+		height:50px;
+		background: #f00000;
+		border-radius: 50%;
+		position: relative;
+		color: #000;
+	}
+</style>
+<body>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+	<div class="dad">
+		<div class="son" id="son"></div>
+	</div>
+<script type="text/javascript">
+window.onload = (function(){
+	//下面三个可以是传入的参数
+	var dad = document.querySelectorAll(".dad");//子元素节点
+	var son = document.querySelectorAll(".son");//父元素节点
+	var inter = 18;//动画帧时间
+	var speedX = [];
+	var speedY = [];
+	var speed = 3;//球运动的速度
+	//球的起始速度和位置
+	for(var i = 0; i < dad.length; i++){
+		speedX[i]= speed*(1-2*Math.random());
+		speedY[i] = (2*Math.ceil(2*Math.random())-3)*Math.sqrt((Math.pow(speed,2) - Math.pow(speedX[i],2)),2);
+		son[i].style.left = Math.ceil((dad[i].offsetWidth-son[i].offsetWidth)*Math.random()) + 'px';
+		son[i].style.top = Math.ceil((dad[i].offsetHeight-son[i].offsetHeight)*Math.random()) + 'px';
+	}
+	//下面是球滚动的方法
+	move(speedX,speedY,inter);
+	function move(speedX,speedY,inter){
+		for(var i = 0; i < dad.length; i++){
+			son[i].style.left = son[i].offsetLeft+speedX[i]+ 'px';
+			son[i].style.top = son[i].offsetTop+speedY[i]+ 'px';
+			//上下左右角落
+			if(
+				((son[i].offsetLeft+son[i].offsetWidth >= dad[i].offsetWidth)&&(son[i].offsetTop+son[i].offsetHeight >= dad[i].offsetHeight))||
+				((son[i].offsetLeft+son[i].offsetWidth >= dad[i].offsetWidth)&&(son[i].offsetTop <= 0))||
+				((son[i].offsetLeft <= 0)&&(son[i].offsetTop <= 0))||
+				((son[i].offsetLeft <= 0)&&(son[i].offsetTop+son[i].offsetHeight >= dad[i].offsetHeight))
+			){
+				speedX[i] = -speedX[i];
+				speedY[i] = -speedY[i];
+				if(Math.abs(speedX[i]) - Math.abs(speedY[i]) <= 1.5){
+					speedX[i] = 2*speedX[i];
+					speedY[i] = speedY[i];
+				}
+			//右边界
+			}else if(son[i].offsetLeft+son[i].offsetWidth >= dad[i].offsetWidth){
+				speedX[i] = -speed*Math.random();
+ 				speedY[i] = (2*Math.ceil(2*Math.random())-3)*Math.sqrt((Math.pow(speed,2) - Math.pow(speedX[i],2)),2);
+			//下边界
+			}else if(son[i].offsetTop+son[i].offsetHeight >= dad[i].offsetHeight){
+				speedX[i] = (2*Math.ceil(2*Math.random())-3)*speed*Math.random();
+ 				speedY[i] = -Math.sqrt((Math.pow(speed,2) - Math.pow(speedX[i],2)),2);
+			//左边界
+			}else if(son[i].offsetLeft <= 0){
+				speedX[i] = speed*Math.random();
+ 				speedY[i] = (2*Math.ceil(2*Math.random())-3)*Math.sqrt((Math.pow(speed,2) - Math.pow(speedX[i],2)),2);
+			//上边界
+			}else if(son[i].offsetTop <= 0){
+				speedX[i] = (2*Math.ceil(2*Math.random())-3)*speed*Math.random();
+ 				speedY[i] = Math.sqrt((Math.pow(speed,2) - Math.pow(speedX[i],2)),2);
+			}else{
+
+			}
+		}
+		setTimeout(function(){move(speedX,speedY,inter);},inter);
+	}
+})();
+</script>
+</body>
+</html>
