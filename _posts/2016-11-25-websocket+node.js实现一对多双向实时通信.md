@@ -122,6 +122,7 @@ init为初始化方法，用于建立socket连接，建立连接后自动发送�
 介于我不会写安卓端的代码，安卓端的socket.io也未找到，故暂未实现安卓端socket.io的写法，我只能用web端的写法来模拟设备（和web端代码基本无异），具体见代码：
 
 ```
+{% highlight bash %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -188,12 +189,13 @@ init为初始化方法，用于建立socket连接，建立连接后自动发送�
     </body>
 </html>
 ```
+{% endhighlight %}
 
 五、服务端代码的编写
 ------------------------------------
 
 * 引入需要的模块：
-```
+{% highlight bash %}
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -201,12 +203,13 @@ var io = require('socket.io')(http);
 app.get('/', function(req, res){
 	res.send('<h1>Welcome Realtime Server</h1>');
 });
-```
+{% endhighlight %}
 
 * 建立一个用于储存在线用户信息的列表
 `var onlineList = {};`
 
 * 建立socket.io的连接监听
+
 ```
 io.on('connection', function(socket){
 	
