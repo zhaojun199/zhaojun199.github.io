@@ -121,7 +121,6 @@ init为初始化方法，用于建立socket连接，建立连接后自动发送�
 ------------------------------------
 介于我不会写安卓端的代码，安卓端的socket.io也未找到，故暂未实现安卓端socket.io的写法，我只能用web端的写法来模拟设备（和web端代码基本无异），具体见代码：
 
-```
 {% highlight bash %}
 <!DOCTYPE html>
 <html>
@@ -188,7 +187,6 @@ init为初始化方法，用于建立socket连接，建立连接后自动发送�
         </script>
     </body>
 </html>
-```
 {% endhighlight %}
 
 五、服务端代码的编写
