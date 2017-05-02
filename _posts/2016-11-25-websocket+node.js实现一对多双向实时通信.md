@@ -545,7 +545,8 @@ socket.on('close', function(obj){
 {% highlight bash %}
 function forwardMessageToDevice(deviceID,stringObj){
 	var socketID = onlineList[deviceID][deviceID];
-	if(socketID){
+    //判断socket是否连接正常
+	if(socketID && socketID.readyState === 1){
 		socketID.send(stringObj);
 		console.log("转发给设备成攻");
 	}
@@ -558,7 +559,8 @@ function forwardMessageToDevice(deviceID,stringObj){
 function forwardMessageToWechat(obj,stringObj){
 	for(var e in onlineList[obj.ID]){
 		var socketID = onlineList[obj.ID][e];
-		if(socketID && socketID != this){
+        //判断socket是否连接正常
+		if(socketID && socketID != this && socketID.readyState === 1){
 			socketID.send(stringObj);
 			console.log("转发给微信成攻");
 		}
