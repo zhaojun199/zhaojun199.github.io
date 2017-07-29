@@ -51,7 +51,7 @@ export PATH=/usr/local/mongodb/bin:$PATH
 查看环境变量是否添加成功
 {% highlight bash %}
 echo $PATH
-{% highlight bash %}
+{% endhighlight %}
 
 四、创建数据存储目录
 ------------------------------------
@@ -63,19 +63,19 @@ MongoDB的数据存储在data目录的db目录下，但是这个目录在安装�
 {% highlight bash %}
 sudo mkdir -p /data/db
 sudo chmod 777 data/ -R
-{% highlight bash %}
+{% endhighlight %}
 
 五、运行MongoDB 服务
 ------------------------------------
 运行MongoDB 服务
 {% highlight bash %}
 /usr/local/mongodb/bin/mongod
-{% highlight bash %}
+{% endhighlight %}
 
 如果想在后台运行，则输入命令
 {% highlight bash %}
 /usr/local/mongodb/bin/mongod &
-{% highlight bash %}
+{% endhighlight %}
 
 六、运行MongoDB的后台管理 Shell
 ------------------------------------
@@ -84,7 +84,7 @@ sudo chmod 777 data/ -R
 MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行操作和管理的交互式环境。
 {% highlight bash %}
 /usr/local/mongodb/bin/mongo
-{% highlight bash %}
+{% endhighlight %}
 
 接下来就可以在命令行中执行mongodb语法了
 
