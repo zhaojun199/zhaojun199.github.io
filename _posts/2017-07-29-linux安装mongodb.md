@@ -102,21 +102,23 @@ MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行
 
 八、部分报错解决方案：
 ------------------------------------
-**后台启动报错**
+**后台启动报错：**
 
-使用如下命令在后台启动mongod时
+使用如下命令在后台启动mongod时：
 
 {% highlight bash %}
 sudo /usr/local/mongodb/bin/mongod --fork --dbpath=/data/db --logpath=/data/log/mongodb.log
 {% endhighlight %}
 
-报如下错误
+报如下错误：
 
 {% highlight bash %}
 about to fork child process, waiting until server is ready for connections.
 forked process: 20001
 ERROR: child process failed, exited with error number 1
 {% endhighlight %}
+
+解决方法：
 
 * 1、检查路径的权限问题。
 * 2、logpath必须指向一个可写入的文件而不是文件夹
