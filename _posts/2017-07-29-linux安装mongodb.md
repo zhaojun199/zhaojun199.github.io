@@ -74,7 +74,7 @@ sudo chmod 777 data/ -R
 
 如果想在后台运行，则输入命令
 {% highlight bash %}
-/usr/local/mongodb/bin/mongod &
+sudo /usr/local/mongodb/bin/mongod --fork --dbpath=/data/db --logpath=/data/log/mongodb.log
 {% endhighlight %}
 
 六、运行MongoDB的后台管理 Shell
@@ -99,3 +99,24 @@ MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行
 **`it looks like you are trying to access MongoDB over HTTP on the native driver port.`**
 
 这样的文字，说明mongdb已经运行成功
+
+八、测试mongodb是否运行成功
+------------------------------------
+**部分报错解决方案：**
+
+使用如下命令在后台启动mongod时
+
+{% highlight bash %}
+sudo /usr/local/mongodb/bin/mongod --fork --dbpath=/data/db --logpath=/data/log/mongodb.log
+{% endhighlight %}
+
+报如下错误
+
+{% highlight bash %}
+about to fork child process, waiting until server is ready for connections.
+forked process: 20001
+ERROR: child process failed, exited with error number 1
+{% endhighlight %}
+
+* 1、检查路径的权限问题。
+* 2、logpath必须指向一个可写入的文件而不是文件夹
