@@ -100,7 +100,14 @@ MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行
 
 这样的文字，说明mongdb已经运行成功
 
-八、部分报错解决方案：
+八、关闭mongodb
+------------------------------------
+{% highlight bash %}
+/usr/local/mongodb/bin/mongod --shutdown
+{% endhighlight %}
+
+
+九、部分报错解决方案：
 ------------------------------------
 **后台启动报错：**
 
